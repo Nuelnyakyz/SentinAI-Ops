@@ -4,11 +4,13 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\renewcommand{\familydefault}{\sfdefault} % Use sans-serif as default
-\usepackage{helvet} % Helvetica font
+\usepackage{fontspec}
+\setmainfont{Quicksand}
+% \renewcommand{\familydefault}{\sfdefault} % Use sans-serif as default
+% \usepackage{helvet} % Helvetica font
 
 % Page layout
-\usepackage[margin=0.5in]{geometry}
+\usepackage[a4paper, total={6.5in, 9in}]{geometry}
 
 % Math packages
 \usepackage{amsmath}
@@ -16,6 +18,7 @@
 \usepackage{amssymb}
 \usepackage[version=4]{mhchem}
 \usepackage{stmaryrd}
+\usepackage{enumitem}
 
 % Graphics and figures
 \usepackage{graphicx}
@@ -25,10 +28,13 @@
 \usepackage{float}
 
 % Tables
-\usepackage{tabularx}
+\usepackage{tabularx,makecell}
 \usepackage{booktabs}
-\usepackage[table]{xcolor}
+\usepackage[table,dvipsnames]{xcolor}
 \usepackage{colortbl}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
 \renewcommand{\arraystretch}{1.5}
 \definecolor{BrickRed}{RGB}{178,34,34}
 
@@ -59,6 +65,36 @@
 }
 \urlstyle{same}
 
+% Define a custom command for task labels that sets @currentlabel
+\makeatletter
+\newcommand{\tasklabel}[1]{%
+  \phantomsection
+  \def\@currentlabel{#1}%
+  \label{#1}%
+  #1%
+}
+\makeatother
+
+% Header and Footer Configuration
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{SentinAI-Ops}
+% \fancyhead[C]{Center Header}
+% \fancyhead[R]{Right Header}
+
+\fancyfoot[L]{{\bf \color{black!30}AI for National Prosperity}}
+% \fancyfoot[C]{\thepage}
+\fancyfoot[R]{{\bf Page \thepage~of~\pageref{LastPage}}}
+
+% Title Format Configuration
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{BrickRed}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{ForestGreen!70}}
+  {\thesubsection}{1em}{}
+
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{10pt}
 % Document metadata
@@ -70,8 +106,55 @@ February 1 - March 15, 2026}
 
 
 \begin{document}
-\maketitle
-\captionsetup{singlelinecheck=false}
+\begin{titlepage}
+
+% Main title block (centered)
+\begin{center}
+    \vspace*{3cm}
+    {\Huge \bfseries SentinAI-Ops \par}
+    \vspace{2cm}
+    {\Large \bfseries AI-Powered Anomaly Detection for Critical Infrastructure Defense \par}
+    \vspace{0.5cm}
+    % Accent line under title
+
+    \end{center}
+
+\vspace{2cm}
+
+% Left-aligned team and hackathon info
+\noindent
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{ll}
+\textbf{Submitted by:} & \\[-6mm]
+&
+\makecell[l]{Ben Tito - University of Nairobi\\ 
+Emmanuel Nyabicha - Kenyatta University\\ 
+Felix Robinson - Kenyatta University\\ 
+Godfrey Ayuka - Kenyatta University\\
+Shammah Sitati - JKUAT}\\
+
+\textbf{Team Name:} & CyberSentinel\\
+
+\textbf{Hackathon:} & AI for National Prosperity\\
+
+\textbf{Category:} & Research Track – AI for Cybersecurity\\
+
+% \textbf{Date:} & \\
+\end{tabular}
+
+
+\vfill
+\begin{center}
+\today
+\end{center}
+
+
+% \noindent\rule{0.5\linewidth}{0.5pt}\\
+% \textit{This proposal is submitted for participation in the AI for National Prosperity Hackathon 2025.}
+
+\end{titlepage}
+%\maketitle
+%\captionsetup{singlelinecheck=false}
 
 \section{Project Overview}
 
@@ -103,10 +186,10 @@ February 1 - March 15, 2026}
 \begin{enumerate}
   \item Self-hosted Docker Compose deployment
   \item Three ML models (Isolation Forest, NLP Logs, Behavioral Profiling)
-  \item FastAPI backend with auto-generated documentation
-  \item Streamlit dashboard with real-time visualizations
-  \item LLM-powered conversational assistant
-  \item JWT authentication system
+  \item Laravel Orchestrator with Blade + Livewire UI
+  \item FastAPI AI Microservice for heavy computation
+  \item Real-time threat visualisations (Livewire)
+  \item Laravel Sanctum Authentication \& RBAC
 \end{enumerate}
 
 \section{Team Structure and Roles}
@@ -115,17 +198,17 @@ The team will be divided into two tracks (A and B) to enable parallel developmen
 
 Track A focuses on backend infrastructure and machine learning models, while Track B concentrates on user interface and experience. This eliminates blocking dependencies, reduces development time by approximately $50\%$, and ensures that security-critical backend components remain isolated within the Docker internal network.
 
-\subsection{Track A: Backend \& Intelligence (3 Members)}
+\subsection{Track A: Systems \& Intelligence (3 Members)}
 
 \subsubsection*{Primary Responsibilities:}
-\begin{itemize}
-  \item FastAPI backend development
+\begin{enumerate}
+  \item FastAPI AI Microservice development
   \item Machine Learning model implementation
+  \item API Contract definition for Laravel consumption
   \item Prometheus and Loki configuration
-  \item LLM integration and context aggregation
-  \item Multi-channel alerting system
-  \item Security hardening and Docker network isolation
-\end{itemize}
+  \item LLM context aggregation service
+  \item Security hardening of internal ML endpoints
+\end{enumerate}
 
 \subsubsection*{Required Skills:}
 \begin{enumerate}
@@ -138,51 +221,52 @@ Track A focuses on backend infrastructure and machine learning models, while Tra
 
 \subsubsection*{Key Tasks:}
 \begin{itemize}
-  \item \ref{T1.2}{T1.2}: Backend API Foundation
-  \item T1.4: Monitoring Stack Configuration
-  \item T2.1: Model 1 - Isolation Forest
-  \item T2.2: Model 2 - NLP Log Analyzer
-  \item T2.3: Model 3 - Behavioral Profiling
-  \item T3.1: LLM Conversational Assistant
-  \item T3.3: Multi-Channel Alerting
-  \item T3.5: Security Hardening
+  \item \ref{T1.2}: Backend API Foundation
+  \item \ref{T1.4}: Monitoring Stack Configuration
+  \item \ref{T2.1}: Model 1 - Isolation Forest
+  \item \ref{T2.2}: Model 2 - NLP Log Analyzer
+  \item \ref{T2.3}: Model 3 - Behavioral Profiling
+  \item \ref{T3.1}: LLM Conversational Assistant
+  \item \ref{T3.3}: Multi-Channel Alerting
+  \item \ref{T3.5}: Security Hardening
 \end{itemize}
 
-\subsection{Track B: Frontend \& User Experience (2 Members)}
+\clearpage
+\subsection{Track B: Orchestration \& Experience (2 Members)}
 
 \subsubsection*{Primary Responsibilities:}
 \begin{itemize}
-  \item Streamlit multi-page dashboard
-  \item Real-time metrics visualization
-  \item AI chat interface development
-  \item Admin authentication UI
-  \item Theme customization and branding
+  \item Laravel Application development (Orchestrator)
+  \item Blade + Livewire real-time dashboard components
+  \item Integration of FastAPI microservice endpoints
+  \item User Management \& RBAC (Sanctum)
+  \item Alerting System (Laravel Queues)
   \item Demo video production
 \end{itemize}
 
 \subsubsection*{Required Skills:}
 \begin{itemize}
-  \item Python (Streamlit, Plotly, Pandas)
-  \item UI/UX design principles
-  \item Data visualization
-  \item Frontend development
+  \item PHP (Laravel 10/11), Livewire, Alpine.js
+  \item UI/UX (Blade, Tailwind CSS)
+  \item Database Design (MySQL/PostgreSQL)
+  \item System Integration (Guzzle/HTTP Client)
 \end{itemize}
 
 \subsubsection*{Key Tasks:}
 \begin{itemize}
-  \item T1.3: Frontend Dashboard Foundation
-  \item T2.4: Dashboard UI Components
-  \item T3.2: Chat Interface \& Remediation UI
-  \item T4.3: Demo Environment \& Video
+  \item \ref{T1.3}: Frontend Dashboard Foundation
+  \item \ref{T2.4}: Dashboard UI Components
+  \item \ref{T3.2}: Chat Interface \& Remediation UI
+  \item \ref{T4.3}: Demo Environment \& Video
 \end{itemize}
 
 \subsection*{Shared Responsibilities (Both Teams)}
 \begin{itemize}
-  \item T1.1: Project Initialization (Day 1)
-  \item T2.5: API-Frontend Integration (Days 6-7)
-  \item T3.4: Authentication \& Authorization (Days 10-11)
-  \item T4.1: End-to-End Testing (Days 12-14)
-  \item T4.4: Documentation \& Guide (Days 13-14)
+  \item \ref{T1.1}: Project Initialization (Day 1)
+  \item \ref{T2.5}: API-Frontend Integration (Days 6-7)
+  \item \ref{T3.4}: Authentication \& Authorization (Days 10-11)
+  \item \ref{T4.1}: End-to-End Testing (Days 12-14)
+  \item \ref{T4.4}: Documentation \& Guide (Days 13-14)
 \end{itemize}
 
 \section{Technology Stack}
@@ -193,38 +277,33 @@ Track A focuses on backend infrastructure and machine learning models, while Tra
 \textcolor{white}{\textbf{Layer}} & \textcolor{white}{\textbf{Technology}} & \textcolor{white}{\textbf{Purpose}} \\
 \hline
 \rowcolor{black!20}
-Frontend & Streamlit & Python-based dashboard framework with built-in charts and real-time updates \\
+Frontend/UI & Laravel Blade + Tailwind & Server-side rendered, responsive dashboard \\
 \hline
 \rowcolor{white}
-Backend API & FastAPI & Async Python framework with auto-generated OpenAPI documentation \\
+Reactivity & Laravel Livewire & Real-time chart updates and live threat feeds \\
 \hline
 \rowcolor{black!20}
-ML Engine & scikit-learn & Isolation Forest for unsupervised anomaly detection \\
+Orchestrator & Laravel (PHP 8.x) & Core logic: Auth, RBAC, Eloquent DB, Alert Queues \\
 \hline
 \rowcolor{white}
-NLP Engine & spaCy / RapidFuzz & Lightweight NLP for log pattern recognition \\
+ML Engine & FastAPI (Python) & High-performance API for AI models (Isolation Forest, NLP) \\
 \hline
 \rowcolor{black!20}
-Metrics Database & Prometheus & Time-series database with PromQL query language \\
+Auth System & Laravel Sanctum & Secure session and token-based authentication \\
 \hline
 \rowcolor{white}
-Log Storage & Loki + Promtail & Log aggregation system designed for Prometheus integration \\
+Alerting & Laravel Queues & Asynchronous multi-channel notifications (Telegram/SMS) \\
 \hline
 \rowcolor{black!20}
-Orchestration & Docker Compose & Multi-container deployment with network isolation \\
+Metrics & Prometheus & Time-series database with PromQL \\
 \hline
 \rowcolor{white}
-AI Assistant & Flask + LLM API & Context aggregation and conversational threat analysis \\
-\hline
-\rowcolor{black!20}
-Process Monitoring & psutil & Python library for system and process information \\
-\hline
-\rowcolor{white}
-Alerting & Telegram, SMTP, Twilio & Multi-channel notification system \\
+Logs & Loki + Promtail & Log aggregation for ML analysis \\
 \hline
 \end{tabularx}
 \end{center}
 
+\clearpage
 \section{Development Timeline}
 
 \subsection*{Gantt Chart Visualization}
@@ -241,22 +320,23 @@ Alerting & Telegram, SMTP, Twilio & Multi-channel notification system \\
 \textbf{Objective:} Establish project infrastructure and enable parallel development
 
 \begin{center}
-\begin{tabularx}{\textwidth}{|l|l|l|l|l|l|X|}
+\begin{tabularx}{\textwidth}{|l|p{4cm}|l|l|l|l|X|}
 \hline
 \rowcolor{BrickRed}
 \textcolor{white}{\textbf{Task}} & \textcolor{white}{\textbf{Name}} & \textcolor{white}{\textbf{Track}} & \textcolor{white}{\textbf{Duration}} & \textcolor{white}{\textbf{Team}} & \textcolor{white}{\textbf{Dependencies}} & \textcolor{white}{\textbf{Deliverables}} \\
 \hline
 \rowcolor{black!20}
-T1.1 & Project Init & DevOps & 5 days & Full Team & None & GitHub repo, docker-compose skeleton, README \\
+\rowcolor{black!20}
+\tasklabel{T1.1} & Project Init & DevOps & 5 days & Full Team & None & GitHub repo, docker-compose skeleton, README \\
 \hline
 \rowcolor{white}
-\label{T1.2}{T1.2} & Backend API Foundation & Backend & 7 days & Track A & T1.1 & FastAPI structure, endpoint stubs, Swagger docs \\
+\tasklabel{T1.2} & FastAPI AI Microservice & Backend & 7 days & Track A & \ref{T1.1} & FastAPI structure, ML endpoints, Swagger docs \\
 \hline
 \rowcolor{black!20}
-T1.3 & Frontend Dashboard Foundation & Frontend & 7 days & Track B & T1.1 & Streamlit multi-page setup, mock data layer \\
+\tasklabel{T1.3} & Laravel Setup (Orchestrator) & Frontend & 7 days & Track B & \ref{T1.1} & Laravel 11, Livewire, Tailwind init, Database \\
 \hline
 \rowcolor{white}
-T1.4 & Monitoring Stack Config & DevOps & 10 days & Track A & T1.1 & Prometheus, Loki, exporters configured \\
+\tasklabel{T1.4} & Monitoring Stack Config & DevOps & 10 days & Track A & \ref{T1.1} & Prometheus, Loki, exporters configured \\
 \hline
 \end{tabularx}
 \end{center}
@@ -280,19 +360,19 @@ T1.4 & Monitoring Stack Config & DevOps & 10 days & Track A & T1.1 & Prometheus,
 \textcolor{white}{\textbf{Task}} & \textcolor{white}{\textbf{Name}} & \textcolor{white}{\textbf{Track}} & \textcolor{white}{\textbf{Duration}} & \textcolor{white}{\textbf{Team}} & \textcolor{white}{\textbf{Dependencies}} & \textcolor{white}{\textbf{Deliverables}} \\
 \hline
 \rowcolor{black!20}
-T2.1 & Model 1: Isolation Forest & Backend & 10 days & Track A & T1.2, T1.4 & Trained model, anomaly detection API \\
+\tasklabel{T2.1} & Model 1: Isolation Forest & Backend & 10 days & Track A & \ref{T1.2}, \ref{T1.4} & Trained model, anomaly detection API \\
 \hline
 \rowcolor{white}
-T2.2 & Model 2: NLP Log Analyzer & Backend & 10 days & Track A & T1.2, T1.4 & Log parsing engine, regex patterns \\
+\tasklabel{T2.2} & Model 2: NLP Log Analyzer & Backend & 10 days & Track A & \ref{T1.2}, \ref{T1.4} & Log parsing engine, regex patterns \\
 \hline
 \rowcolor{black!20}
-T2.3 & Model 3: Behavioral Profiling & Backend & 14 days & Track A & T1.2 & psutil agent, process whitelist \\
+\tasklabel{T2.3} & Model 3: Behavioral Profiling & Backend & 14 days & Track A & \ref{T1.2} & psutil agent, process whitelist \\
 \hline
 \rowcolor{white}
-T2.4 & Dashboard UI Components & Frontend & 14 days & Track B & T1.3 & System vitals, alert timeline, metrics viz \\
+\tasklabel{T2.4} & Blade/Livewire Components & Frontend & 14 days & Track B & \ref{T1.3} & System vitals, alert timeline, metrics viz \\
 \hline
 \rowcolor{black!20}
-T2.5 & API-Frontend Integration & Both & 6 days & Both & T2.1, T2.4 & API client, real-time data binding \\
+\tasklabel{T2.5} & Orchestrator-Engine Handshake & Both & 6 days & Both & \ref{T2.1}, \ref{T2.4} & Laravel consuming FastAPI endpoints \\
 \hline
 \end{tabularx}
 \end{center}
@@ -304,6 +384,7 @@ T2.5 & API-Frontend Integration & Both & 6 days & Both & T2.1, T2.4 & API client
   \item End-to-end anomaly detection functional
 \end{itemize}
 
+\clearpage
 \subsection*{Phase 3: Intelligence \& User Experience (Week 5: Mar 1-7)}
 
 \noindent
@@ -316,19 +397,19 @@ T2.5 & API-Frontend Integration & Both & 6 days & Both & T2.1, T2.4 & API client
 \textcolor{white}{\textbf{Task}} & \textcolor{white}{\textbf{Name}} & \textcolor{white}{\textbf{Track}} & \textcolor{white}{\textbf{Duration}} & \textcolor{white}{\textbf{Team}} & \textcolor{white}{\textbf{Dependencies}} & \textcolor{white}{\textbf{Deliverables}} \\
 \hline
 \rowcolor{black!20}
-T3.1 & LLM Conversational Assistant & Backend & 7 days & Track A & T2.1, T2.2, T2.3 & Flask aggregator, LLM integration \\
+\tasklabel{T3.1} & LLM Conversational Assistant & Backend & 7 days & Track A & \ref{T2.1}, \ref{T2.2}, \ref{T2.3} & Flask aggregator, LLM integration \\
 \hline
 \rowcolor{white}
-T3.2 & Chat Interface & Frontend & 7 days & Track B & T2.4, T3.1 & AI chat component, remediation display \\
+\tasklabel{T3.2} & Chat Interface & Frontend & 7 days & Track B & \ref{T2.4}, \ref{T3.1} & AI chat component, remediation display \\
 \hline
 \rowcolor{black!20}
-T3.3 & Multi-Channel Alerting & Backend & 7 days & Track A & T2.1, T2.2, T2.3 & Telegram, Email, SMS integration \\
+\tasklabel{T3.3} & Multi-Channel Alerting (Jobs) & Backend & 7 days & Track B & \ref{T2.5} & Laravel Queues for Telegram, Email \\
 \hline
 \rowcolor{white}
-T3.4 & Authentication & Security & 7 days & Both & T1.2, T1.3 & JWT tokens, role-based access \\
+\tasklabel{T3.4} & Auth \& RBAC (Sanctum) & Security & 7 days & Track B & \ref{T1.3} & User roles, protected routes \\
 \hline
 \rowcolor{black!20}
-T3.5 & Security Hardening & Security & 7 days & Track A & T1.1 & Network isolation, secret management \\
+\tasklabel{T3.5} & Security Hardening & Security & 7 days & Track A & \ref{T1.1} & Network isolation, secret management \\
 \hline
 \end{tabularx}
 \end{center}
@@ -341,6 +422,8 @@ T3.5 & Security Hardening & Security & 7 days & Track A & T1.1 & Network isolati
   \item Backend isolated within Docker network
 \end{itemize}
 
+
+\clearpage
 \subsection*{Phase 4: Integration, Testing \& Demo (Week 6: Mar 8-15)}
 
 \noindent
@@ -353,16 +436,16 @@ T3.5 & Security Hardening & Security & 7 days & Track A & T1.1 & Network isolati
 \textcolor{white}{\textbf{Task}} & \textcolor{white}{\textbf{Name}} & \textcolor{white}{\textbf{Track}} & \textcolor{white}{\textbf{Duration}} & \textcolor{white}{\textbf{Team}} & \textcolor{white}{\textbf{Dependencies}} & \textcolor{white}{\textbf{Deliverables}} \\
 \hline
 \rowcolor{black!20}
-T4.1 & End-to-End Testing & QA & 6 days & Full Team & T3.1-T3.5 & Test scenarios, bug fixes \\
+\tasklabel{T4.1} & End-to-End Testing & QA & 6 days & Full Team & \ref{T3.1}-\ref{T3.5} & Test scenarios, bug fixes \\
 \hline
 \rowcolor{white}
-T4.2 & Attack Simulation & Security & 4 days & Track A & T2.3 & Reverse shell test, detection validation \\
+\tasklabel{T4.2} & Attack Simulation & Security & 4 days & Track A & \ref{T2.3} & Reverse shell test, detection validation \\
 \hline
 \rowcolor{black!20}
-T4.3 & Demo Environment & Demo & 6 days & Track B & T4.1 & Demo script, video recording \\
+\tasklabel{T4.3} & Demo Environment & Demo & 6 days & Track B & \ref{T4.1} & Demo script, video recording \\
 \hline
 \rowcolor{white}
-T4.4 & Documentation & Docs & 4 days & Full Team & T4.1 & Installation guide, architecture diagrams \\
+\tasklabel{T4.4} & Documentation & Docs & 4 days & Full Team & \ref{T4.1} & Installation guide, architecture diagrams \\
 \hline
 \end{tabularx}
 \end{center}
@@ -394,7 +477,7 @@ The project follows a 6-Week Agile Sprint structure. Instead of a rigid daily ti
 
 \subsection*{Wednesday: Mid-Week Checkpoints}
 \begin{itemize}
-  \item Track-Specific Virtual Meetings ( \textbf{30} Minutes): Each track holds a short, focused call to address specific technical blockers.
+  \item Track-Specific Virtual Meetings (\textbf{30} Minutes): Each track holds a short, focused call to address specific technical blockers.
   \item Technical Review: Track A reviews code for endpoint logic and model accuracy. Track B reviews the interface responsiveness and theme consistency.
 \end{itemize}
 
@@ -448,8 +531,8 @@ open http://localhost:8501
 
 \subsection{Key Endpoints}
 \begin{itemize}
-  \item Dashboard: \href{http://localhost:8501}{http://localhost:8501}
-  \item API Documentation: \href{http://localhost:8000/docs}{http://localhost:8000/docs}
+  \item Dashboard: \href{http://localhost}{http://localhost}
+  \item FastAPI Microservice: \href{http://localhost:8000/docs}{http://localhost:8000/docs}
   \item Prometheus: \href{http://localhost:9090}{http://localhost:9090}
   \item Loki: \href{http://localhost:3100}{http://localhost:3100}
 \end{itemize}
