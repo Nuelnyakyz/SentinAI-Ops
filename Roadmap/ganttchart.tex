@@ -1,0 +1,109 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{pgfgantt}
+
+\definecolor{BrickRed}{RGB}{178,34,34}
+\definecolor{TrackAColor}{RGB}{70,130,180} % SteelBlue
+\definecolor{TrackBColor}{RGB}{205,92,92}   % IndianRed
+\definecolor{DevOpsColor}{RGB}{46,139,87}   % SeaGreen
+\definecolor{SecurityColor}{RGB}{148,0,211} % DarkViolet
+\definecolor{MilestoneColor}{RGB}{0,0,0}
+
+\begin{document}
+
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!5, line width=.75pt},
+    hgrid style/.style={draw=black!5, line width=.75pt},
+    vgrid={*1{draw=black!5, line width=.75pt}},
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=7pt},
+    include title in canvas=false,
+    bar label font=\mdseries\small\color{black!70},
+    bar label node/.append style={left=2cm},
+    bar/.append style={draw=none, fill=BrickRed},
+    bar incomplete/.append style={fill=BrickRed!40},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+    group incomplete/.append style={fill=gray!50},
+    group/.append style={draw=none, fill=black},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    milestone/.append style={draw=none, fill=MilestoneColor},
+    milestone label font=\bfseries\small,
+    link/.style={-latex, line width=1.5pt},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt},
+    x unit=0.4cm,
+    y unit chart=0.7cm
+]{1}{44}
+    % Timeline Header
+    \gantttitle{February 2026}{28}
+    \gantttitle{March 2026}{16} \\
+    \gantttitle{Week 1}{7} 
+    \gantttitle{Week 2}{7} 
+    \gantttitle{Week 3}{7} 
+    \gantttitle{Week 4}{7} 
+    \gantttitle{Week 5}{7} 
+    \gantttitle{Week 6}{7} 
+    \gantttitle{Week 7}{2} \\
+
+    % Phase 1
+    \ganttgroup[group/.append style={fill=DevOpsColor}]{Phase 1: Foundation}{1}{14} \\
+    \ganttbar[bar/.append style={fill=DevOpsColor}, name=T11]{T1.1 Project Init}{1}{5} \\
+    \ganttbar[bar/.append style={fill=TrackAColor}, name=T12]{T1.2 FastAPI Microservice}{6}{12} \\
+    \ganttbar[bar/.append style={fill=TrackBColor}, name=T13]{T1.3 Laravel Setup}{6}{12} \\
+    \ganttbar[bar/.append style={fill=DevOpsColor}, name=T14]{T1.4 Monitoring Stack}{6}{15} \\
+
+    % Phase 2
+    \ganttgroup[group/.append style={fill=TrackAColor}]{Phase 2: ML \& Core}{15}{28} \\
+    \ganttbar[bar/.append style={fill=TrackAColor}, name=T21]{T2.1 Isolation Forest}{15}{24} \\
+    \ganttbar[bar/.append style={fill=TrackAColor}, name=T22]{T2.2 NLP Log Analyzer}{15}{24} \\
+    \ganttbar[bar/.append style={fill=TrackAColor}, name=T23]{T2.3 Behavioral Profiling}{15}{28} \\
+    \ganttbar[bar/.append style={fill=TrackBColor}, name=T24]{T2.4 Blade/Livewire UI}{15}{28} \\
+    \ganttbar[bar/.append style={fill=BrickRed}, name=T25]{T2.5 Orchestrator Handshake}{23}{28} \\
+
+    % Phase 3
+    \ganttgroup[group/.append style={fill=SecurityColor}]{Phase 3: Intelligence}{29}{35} \\
+    \ganttbar[bar/.append style={fill=TrackAColor}, name=T31]{T3.1 LLM Assistant}{29}{35} \\
+    \ganttbar[bar/.append style={fill=TrackBColor}, name=T32]{T3.2 Chat Interface}{29}{35} \\
+    \ganttbar[bar/.append style={fill=TrackBColor}, name=T33]{T3.3 Multi-Channel Alert}{29}{35} \\
+    \ganttbar[bar/.append style={fill=SecurityColor}, name=T34]{T3.4 Auth \& RBAC}{29}{35} \\
+    \ganttbar[bar/.append style={fill=SecurityColor}, name=T35]{T3.5 Security Hardening}{29}{35} \\
+
+    % Phase 4
+    \ganttgroup[group/.append style={fill=black}]{Phase 4: Integration}{36}{43} \\
+    \ganttbar[bar/.append style={fill=BrickRed}, name=T41]{T4.1 End-to-End Test}{36}{41} \\
+    \ganttbar[bar/.append style={fill=SecurityColor}, name=T42]{T4.2 Attack Sim}{40}{43} \\
+    \ganttbar[bar/.append style={fill=TrackBColor}, name=T43]{T4.3 Demo Video}{38}{43} \\
+    \ganttbar[bar/.append style={fill=DevOpsColor}, name=T44]{T4.4 Documentation}{40}{43} \\
+
+    % Links/Dependencies
+    \ganttlink{T11}{T12}
+    \ganttlink{T11}{T13}
+    \ganttlink{T11}{T14}
+    
+    \ganttlink{T12}{T21}
+    \ganttlink{T12}{T22}
+    \ganttlink{T12}{T23}
+    \ganttlink{T13}{T24}
+    
+    \ganttlink{T21}{T25}
+    \ganttlink{T24}{T25}
+    
+    \ganttlink{T21}{T31}
+    \ganttlink{T24}{T32}
+    \ganttlink{T25}{T33}
+    \ganttlink{T13}{T34}
+    
+    \ganttlink{T31}{T41}
+    \ganttlink{T35}{T41}
+    \ganttlink{T41}{T43}
+    \ganttlink{T41}{T44}
+
+\end{ganttchart}
+
+\end{document}
